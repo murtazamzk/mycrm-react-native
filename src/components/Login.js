@@ -4,6 +4,7 @@ import { MKTextField, MKButton, } from 'react-native-material-kit';
 import {colors,commonStyles} from '../appTheme';
 import Logo from '../../assets/logo.png';
 import firebase from 'firebase';
+import fbConfig from '../../firebaseConfig';
 
 const {width,height} = Dimensions.get('window');
 const LOGO_POSITION = new Animated.Value(height/2);
@@ -21,14 +22,7 @@ export default class Login extends Component {
   }
 
   componentWillMount(){
-    FB = firebase.initializeApp({
-      apiKey: "AIzaSyDIRoqroPV6drVDIOgnMwoJ7Teu-Cgs5cM",
-      authDomain: "mycrm-43dd9.firebaseapp.com",
-      databaseURL: "https://mycrm-43dd9.firebaseio.com",
-      projectId: "mycrm-43dd9",
-      storageBucket: "",
-      messagingSenderId: "619774370712"
-    });
+    FB = firebase.initializeApp(fbConfig);
   }
   componentDidMount(){
     
