@@ -11,6 +11,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import Login from './src/components/Login';
 import firebase from 'firebase';
+import fbConfig from './firebaseConfig';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -22,14 +23,7 @@ const instructions = Platform.select({
 type Props = {};
 export default class App extends Component<Props> {
   componentWillMount(){
-    firebase.initializeApp({
-      apiKey: "AIzaSyDIRoqroPV6drVDIOgnMwoJ7Teu-Cgs5cM",
-      authDomain: "mycrm-43dd9.firebaseapp.com",
-      databaseURL: "https://mycrm-43dd9.firebaseio.com",
-      projectId: "mycrm-43dd9",
-      storageBucket: "",
-      messagingSenderId: "619774370712"
-    })
+    firebase.initializeApp(fbConfig)
   }
   render() {
     return (
