@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Animated, Dimensions, Keyboard, TextInput, UIManager } from 'react-native';
-import { MKTextField, MKButton, } from 'react-native-material-kit';
+import { Platform, View, Text, Image, StyleSheet, Animated, Dimensions, Keyboard, TextInput, UIManager } from 'react-native';
+import { MKTextField, MKButton, MKTouchable } from 'react-native-material-kit';
 import {colors,commonStyles} from '../appTheme';
 import Logo from '../../assets/logo.png';
 import Loader from '../components/Loader';
@@ -13,6 +13,11 @@ const BUBBLE_POSITION = new Animated.Value(-width * 1.5);
 const FORM_OPACITY = new Animated.Value(0);
 const KB_SHIFT = new Animated.Value(0);
 let FB ;
+
+const isEmail = (email = null) => {
+  const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regex.test(email);
+}
 
 
 const LoginButton = MKButton.coloredButton().withText('Login').build();
@@ -50,7 +55,7 @@ export default class Login extends Component {
       Animated.timing(
         BUBBLE_POSITION,
         {
-          toValue: -(width*1.5 + 200)/3  ,
+          toValue: Platform.OS == 'ios' ? -(width*1.5 + 200)/3 : -(width*1.5 + 350)/3  ,
           duration: 3000,              
         }
       )
@@ -102,20 +107,50 @@ export default class Login extends Component {
 
 
   handleSubmit = () => {
+    const {email,password} = this.state;
     if(this.state.email == '' || this.state.password == ''){
       this.setState({
-        error : 'Invalid Login Details'
+        error : 'Please enter Email & Password'
       });
     }else{
-      this.setState({
-        error : ''
-      });
+      if(isEmail(email)){
+        this.setState({
+          error : '',
+          loading: true
+        });
+        firebase.auth().signInWithEmailAndPassword(email,password)
+        .then(this.onAuthSuccess.bind(this))
+        .catch((error) => {
+          this.setState({
+            error : error.message,
+            loading: false
+          });
+          console.log(error);
+        });
+      }else{
+        this.setState({
+          error : 'Invalid Email',
+        });
+      }
     }
+  }
+
+  onAuthSuccess(event){
+    this.setState({
+      error : '',
+      loading: false
+    });
+    console.log(event);
+  }
+
+  onAuthFailed(){
+
   }
 
   render() {
     return (
       <View style={styles.container}>
+        {this.state.loading ? <Loader></Loader> : null}
         <Animated.View style={{...styles.bubble,top:BUBBLE_POSITION}}></Animated.View>
         <Animated.View style={{...styles.logoWrapper,bottom:LOGO_POSITION}}> 
           <Image source={Logo} style={styles.logo} resizeMode="cover" />
@@ -153,7 +188,9 @@ const styles = StyleSheet.create({
       flex:1,
       backgroundColor: '#ffffff',
       position: 'relative',
-      justifyContent: 'flex-end'
+      justifyContent: 'flex-end',
+      padding: 20,
+      width:width
     },
     bubble:{
       position: 'absolute',
@@ -176,7 +213,7 @@ const styles = StyleSheet.create({
       color: colors.primary
     },
     formWrapper:{
-      paddingBottom:height/5,
+      paddingBottom: Platform.OS == 'ios' ? height/5 : height/5 - 50,
       position: 'relative'
     },
     errorMsg:{

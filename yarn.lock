@@ -244,14 +244,6 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
-"@babel/plugin-proposal-class-properties@^7.0.0":
-  version "7.3.3"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.3.3.tgz#e69ee114a834a671293ace001708cc1682ed63f9"
-  integrity sha512-XO9eeU1/UwGPM8L+TjnQCykuVcXqaO5J1bkRPIygqZ/A2L1xVMJ9aZXrY31c0U4H2/LHKL4lbFQLsxktSrc/Ng==
-  dependencies:
-    "@babel/helper-create-class-features-plugin" "^7.3.0"
-    "@babel/helper-plugin-utils" "^7.0.0"
-
 "@babel/plugin-proposal-export-default-from@^7.0.0":
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-export-default-from/-/plugin-proposal-export-default-from-7.2.0.tgz#737b0da44b9254b6152fe29bb99c64e5691f6f68"
@@ -986,7 +978,6 @@ babel-preset-fbjs@^3.0.0, babel-preset-fbjs@^3.0.1:
   resolved "https://registry.yarnpkg.com/babel-preset-fbjs/-/babel-preset-fbjs-3.2.0.tgz#c0e6347d3e0379ed84b3c2434d3467567aa05297"
   integrity sha512-5Jo+JeWiVz2wHUUyAlvb/sSYnXNig9r+HqGAOSfh5Fzxp7SnAaR/tEGRJ1ZX7C77kfk82658w6R5Z+uPATTD9g==
   dependencies:
-    "@babel/plugin-proposal-class-properties" "^7.0.0"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0"
     "@babel/plugin-syntax-class-properties" "^7.0.0"
     "@babel/plugin-syntax-flow" "^7.0.0"
@@ -3459,7 +3450,6 @@ metro-babel-register@^0.49.1:
   integrity sha512-xx+SNwJ3Dl4MmSNn1RpUGc7b5pyTxXdpqpE7Fuk499rZffypVI1uhKOjKt2lwQhlyD03sXuvB/m3RdEg3mivWg==
   dependencies:
     "@babel/core" "^7.0.0"
-    "@babel/plugin-proposal-class-properties" "^7.0.0"
     "@babel/plugin-proposal-nullish-coalescing-operator" "^7.0.0"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0"
     "@babel/plugin-proposal-optional-catch-binding" "^7.0.0"
@@ -3533,7 +3523,6 @@ metro-react-native-babel-preset@0.49.2:
   resolved "https://registry.yarnpkg.com/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.49.2.tgz#8d53610e044e0c9a53a03d307e1c51f9e8577abc"
   integrity sha512-N0+4ramShYCHSAVEPUNWIZuKZskWj8/RDSoinhadHpdpHORMbMxLkexSOVHLluB+XFQ+DENLEx5oVPYwOlENBA==
   dependencies:
-    "@babel/plugin-proposal-class-properties" "^7.0.0"
     "@babel/plugin-proposal-export-default-from" "^7.0.0"
     "@babel/plugin-proposal-nullish-coalescing-operator" "^7.0.0"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0"
@@ -3574,7 +3563,6 @@ metro-react-native-babel-preset@0.52.0:
   resolved "https://registry.yarnpkg.com/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.52.0.tgz#2b261d97c13cd14a617ba0d6b03e00a0b2168722"
   integrity sha512-Z/bWNIexZ5k4JXUjTjhmjoOpF1Cil+eEm1PNh4TVDvO3wEE3eKajMuuJCFa/a992OSpk3wUlFwQkYl7VO6NQSg==
   dependencies:
-    "@babel/plugin-proposal-class-properties" "^7.0.0"
     "@babel/plugin-proposal-export-default-from" "^7.0.0"
     "@babel/plugin-proposal-nullish-coalescing-operator" "^7.0.0"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0"
