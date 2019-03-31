@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Platform, View, Text, Image, StyleSheet, Animated, Dimensions, Keyboard, TextInput, UIManager } from 'react-native';
-import { MKTextField, MKButton, MKTouchable } from 'react-native-material-kit';
+import { Platform, View, Text, Image, StyleSheet, Animated, Dimensions, Keyboard, TextInput, UIManager, AsyncStorage } from 'react-native';
+import { MKTextField, MKButton, MKTouchable, MKCheckbox } from 'react-native-material-kit';
 import {colors,commonStyles} from '../appTheme';
 import Logo from '../../assets/logo.png';
 import Loader from '../components/Loader';
@@ -30,6 +30,7 @@ export default class Login extends Component {
     email : '',
     password : '',
     error : '',
+    rememberPwd: false,
     loading : false
   }
 
@@ -43,7 +44,7 @@ export default class Login extends Component {
     this.keyboardDidHideSub.remove();
   }
   componentDidMount(){
-    
+    this._retrieveData.bind(this)();
     Animated.parallel([
       Animated.timing(
         LOGO_POSITION,
@@ -139,13 +140,43 @@ export default class Login extends Component {
     this.setState({
       error : '',
       loading: false
-    });
-    console.log(event);
+    },function(){
+      if(this.state.rememberPwd){
+        this._storeData(JSON.stringify({email:this.state.email,password:this.state.password}));
+      }else{
+        AsyncStorage.removeItem('UserLogin');
+      }
+    }.bind(this));
   }
 
   onAuthFailed(){
 
   }
+
+  _storeData = async (data) => {
+    try {
+      await AsyncStorage.setItem('UserLogin', data);
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('UserLogin');
+      if (value !== null) {
+        userObj = JSON.parse(value);
+        console.log(userObj);
+        this.setState({
+          email: userObj.email,
+          password: userObj.password,
+          rememberPwd: true
+        });
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
 
   render() {
     return (
@@ -162,7 +193,7 @@ export default class Login extends Component {
             style={styles.formInput}
             placeholder="Email Address"
             returnKeyType="done"
-            text={this.state.email}
+            value={this.state.email}
             onTextChange={email => this.setState({ email })}
           ></MKTextField>
           <MKTextField
@@ -170,11 +201,15 @@ export default class Login extends Component {
             style={styles.formInput}
             placeholder="Password"
             returnKeyType="done"
-            text={this.state.email}
+            value={this.state.password}
             password={true}
             onTextChange={password => this.setState({ password })}
           ></MKTextField>
           {this.state.error ? <Text style={styles.errorMsg}>{this.state.error}</Text> : null}
+          <View style={styles.checkBox}>
+            <MKCheckbox checked={this.state.rememberPwd} onCheckedChange={checked => this.setState({rememberPwd:checked.checked})}></MKCheckbox>
+            <Text>Remember Login</Text>
+          </View>
           <LoginButton onPress={this.handleSubmit.bind(this)}></LoginButton>
         </Animated.View>
       </View>
@@ -219,11 +254,21 @@ const styles = StyleSheet.create({
     errorMsg:{
       color: '#ff0000',
       position: 'relative',
-      top:-20
+      top:-20,
+      marginBottom:10
     },
     formInput:{
       width: width - 50,
       paddingBottom: 20,
       marginBottom:20
+    },
+    checkBox: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      marginTop:-20,
+      marginBottom:10,
+      marginLeft: -10,
     }
 })

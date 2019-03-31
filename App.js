@@ -12,6 +12,9 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 import Login from './src/components/Login';
 import firebase from 'firebase';
 import fbConfig from './firebaseConfig';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux'
+import reducers from './src/reducers/PeopleReducer';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -21,15 +24,20 @@ const instructions = Platform.select({
 });
 
 type Props = {};
+
+const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
 export default class App extends Component<Props> {
   componentWillMount(){
     firebase.initializeApp(fbConfig);
   }
   render() {
     return (
-      <View style={styles.container}>
-        <Login></Login>
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          <Login></Login>
+        </View>
+      </Provider>
     );
   }
 }
